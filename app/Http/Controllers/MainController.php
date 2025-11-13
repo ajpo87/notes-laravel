@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
-    public function index($value)
+    /*public function index($value)
     {
       return view('main',['value' => $value, 'name' => 'John']);
     }
@@ -19,6 +19,8 @@ class MainController extends Controller
     public function page3($value)
     {
       return view('page3',['value' => $value, 'name' => 'page3']);
-    }
+    }*/
+
+    
 }
 
