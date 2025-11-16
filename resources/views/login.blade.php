@@ -6,7 +6,7 @@
     <div class="row justify-content-center">
         <div class="col-md-6 col-sm-8">
             <div class="card p-5">
-                
+
                 <!-- logo -->
                 <div class="text-center p-3">
                     <img src="assets/images/logo.png" alt="Notes logo">
@@ -32,11 +32,16 @@
                                 @error('text_password')
                                     <div class="text-danger">{{$message}}</div>
                                 @enderror
+
                             </div>
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-secondary w-100">LOGIN</button>
                             </div>
                         </form>
+                          {{-- Login Invalido --}}
+                            @if(session('loginError'))
+                                <div class="text-danger text-center">{{session('loginError')}}</div>
+                            @endif
                     </div>
                 </div>
 
