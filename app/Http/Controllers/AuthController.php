@@ -64,7 +64,6 @@ class AuthController extends Controller
             ]
         ]);
 
-        print_r(session('user'));
         echo 'User logged in successfully';
     }
 

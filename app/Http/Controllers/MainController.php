@@ -20,7 +20,16 @@ class MainController extends Controller
     {
       return view('page3',['value' => $value, 'name' => 'page3']);
     }*/
+    public function index()
+    {
+      echo 'Welcome to the main page';
+    }
 
-    
+    public function newNote(){
+        echo 'Create a new note';
+    }
+
+
+
 }
 
