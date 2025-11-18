@@ -22,7 +22,10 @@ class MainController extends Controller
     }*/
     public function index()
     {
-      echo 'Welcome to the main page';
+        //load users notes
+
+        //return home view
+        return view('home');
     }
 
     public function newNote(){
