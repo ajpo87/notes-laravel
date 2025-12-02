@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Note;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class MainController extends Controller
 {
@@ -23,16 +27,39 @@ class MainController extends Controller
     public function index()
     {
         //load users notes
+        $id = session('user.id');
+
+        $user = User::find($id)->toArray();
+        $notes = User::find($id)->notes()->get()->toArray();
 
         //return home view
-        return view('home');
+       // var_dump($notes);die;
+        return view('home', ['notes' => $notes]);
     }
 
     public function newNote(){
         echo 'Create a new note';
     }
 
+    private function decryptId($id){
+        try {
+            $id = Crypt::decrypt($id);
+            return $id;
+        } catch (DecryptException $e) {
+            return redirect()->route('home');
+        }
 
+        return $id;
+    }
 
+    public function editNote($id){
+       $id = $this->decryptId($id);
+        echo "Edit note with ID: ".$id;
+    }
+
+    public function deleteNote($id){
+        $id = $this->decryptId($id);
+        echo "DEleting note with ID: ".$id;
+    }
 }
 
