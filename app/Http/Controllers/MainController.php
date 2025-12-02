@@ -39,7 +39,46 @@ class MainController extends Controller
     }
 
     public function newNote(){
-        echo 'Create a new note';
+        //show new note view
+        return view('newNote');
+    }
+
+    public function newNoteSubmit(Request $request){
+        //handle new note submission
+        // validate request
+            $request->validate(
+            // Rules
+            [
+                'text_title' => 'required|min:3|max:200',
+                'text_note' => 'required|min:3|max:3000'
+            ],
+            //Messages
+            [
+                'text_title.required' => 'O titulo é obrigatorio',
+                'text_title.min'=> 'O titulo deve ter pelo menos  :min caracters',
+                'text_title.max'=> 'O titulo deve ter no máximo  :max caracters',
+                'text_note.required'=> 'A nota é obrigatoria',
+                'text_note.min'=> 'A nota deve ter pelo menos  :min caracters',
+                'text_note.max'=> 'A nota deve ter no máximo  :max caracters'
+            ]
+        );
+
+        echo 'ok';
+
+
+        // get user id
+
+        $id = session('user.id');
+
+        //create new note
+        $note = new Note();
+        $note->title = $request->input('text_title');
+        $note->text = $request->input('text_note');
+        $note->user_id = $id;
+        $note->save();
+
+        //redirect to home
+        return redirect()->route('home');
     }
 
     /*private function decryptId($id){
