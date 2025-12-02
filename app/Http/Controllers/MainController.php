@@ -7,6 +7,7 @@ use App\Models\Note;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use App\Services\Operations;
 
 class MainController extends Controller
 {
@@ -41,7 +42,7 @@ class MainController extends Controller
         echo 'Create a new note';
     }
 
-    private function decryptId($id){
+    /*private function decryptId($id){
         try {
             $id = Crypt::decrypt($id);
             return $id;
@@ -50,15 +51,17 @@ class MainController extends Controller
         }
 
         return $id;
-    }
+    }*/
 
     public function editNote($id){
-       $id = $this->decryptId($id);
+      /* $id = $this->decryptId($id);*/
+        $id = Operations::decrytpId($id);
         echo "Edit note with ID: ".$id;
     }
 
     public function deleteNote($id){
-        $id = $this->decryptId($id);
+        /*$id = $this->decryptId($id);*/
+        $id = Operations::decrytpId($id);
         echo "DEleting note with ID: ".$id;
     }
 }
