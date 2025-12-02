@@ -81,7 +81,8 @@ class MainController extends Controller
         return redirect()->route('home');
     }
 
-    /*private function decryptId($id){
+
+    private function decryptId($id){
         try {
             $id = Crypt::decrypt($id);
             return $id;
@@ -90,12 +91,57 @@ class MainController extends Controller
         }
 
         return $id;
-    }*/
+    }
 
     public function editNote($id){
-      /* $id = $this->decryptId($id);*/
-        $id = Operations::decrytpId($id);
-        echo "Edit note with ID: ".$id;
+      $id = $this->decryptId($id);
+        /*$id = Operations::decrytpId($id);*/
+
+
+         //load note
+        $note = Note::find($id);
+        //show edit note view
+          return view('editNote', ['note' => $note]);
+        //save note
+
+    }
+
+    public function editNoteSubmit(Request $request){
+        // validate request
+            $request->validate(
+            // Rules
+            [
+                'text_title' => 'required|min:3|max:200',
+                'text_note' => 'required|min:3|max:3000'
+            ],
+            //Messages
+            [
+                'text_title.required' => 'O titulo é obrigatorio',
+                'text_title.min'=> 'O titulo deve ter pelo menos  :min caracters',
+                'text_title.max'=> 'O titulo deve ter no máximo  :max caracters',
+                'text_note.required'=> 'A nota é obrigatoria',
+                'text_note.min'=> 'A nota deve ter pelo menos  :min caracters',
+                'text_note.max'=> 'A nota deve ter no máximo  :max caracters'
+            ]
+        );
+
+        //if note id exists
+        if($request->has('note_id') == null){
+            return redirect()->route('home');
+        }
+        //decryot note id
+       // $id = Operations::decrytpId($request->note_id);
+        $id = $this->decryptId($request->note_id);
+
+        //load note
+        $note = Note::find($id);
+        //update note
+        $note->title = $request->input('text_title');
+        $note->text = $request->input('text_note');
+        $note->save();
+
+        return redirect()->route('home');
+
     }
 
     public function deleteNote($id){

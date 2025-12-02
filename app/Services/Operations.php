@@ -17,6 +17,6 @@ class Operations
             return redirect()->route('home');
         }
 
-        return $id;
+        return $value;
     }
 }
