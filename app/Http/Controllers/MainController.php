@@ -31,7 +31,7 @@ class MainController extends Controller
         $id = session('user.id');
 
         $user = User::find($id)->toArray();
-        $notes = User::find($id)->notes()->get()->toArray();
+        $notes = User::find($id)->notes()->whereNull('deleted_at')->get()->toArray();
 
         //return home view
        // var_dump($notes);die;
@@ -145,9 +145,38 @@ class MainController extends Controller
     }
 
     public function deleteNote($id){
-        /*$id = $this->decryptId($id);*/
-        $id = Operations::decrytpId($id);
-        echo "DEleting note with ID: ".$id;
+        $id = $this->decryptId($id);
+       //load note
+       $note = Note::find($id);
+
+       //show delete confirmation view
+       return view('deleteNote', ['note' => $note]);
+
+    }
+    public function deleteNoteConfirm($id){
+
+
+         $id = $this->decryptId($id);
+
+         //load note
+         $note = Note::find($id);
+
+        //Hard DELETE
+        // $note->delete();
+
+        //SOFT DELETE
+        // $note->deleted_at = date('Y-m-d H:i:s');
+        //$note->save();
+
+        // soft delete using trait in model
+        $note->delete();
+
+        // hard  delete  with  softDelete in model
+        //$note->forceDelete();
+
+        //redirect to home
+        return redirect()->route('home');
+
     }
 }
 
